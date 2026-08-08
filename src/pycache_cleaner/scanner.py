@@ -2,24 +2,28 @@ import pathlib
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-CACHE_DIR_NAMES: frozenset[str] = frozenset({
-    "__pycache__",
-    ".pytest_cache",
-    ".ruff_cache",
-    ".mypy_cache",
-    ".black",
-})
+CACHE_DIR_NAMES: frozenset[str] = frozenset(
+    {
+        "__pycache__",
+        ".pytest_cache",
+        ".ruff_cache",
+        ".mypy_cache",
+        ".black",
+    }
+)
 
 CACHE_FILE_SUFFIXES: frozenset[str] = frozenset({".pyc", ".pyo", ".pyd"})
 
-EXCLUDED_DIR_NAMES: frozenset[str] = frozenset({
-    ".git",
-    ".zed",
-    ".vscode",
-    ".idea",
-    ".venv",
-    "venv",
-})
+EXCLUDED_DIR_NAMES: frozenset[str] = frozenset(
+    {
+        ".git",
+        ".zed",
+        ".vscode",
+        ".idea",
+        ".venv",
+        "venv",
+    }
+)
 
 
 @dataclass(frozen=True)
