@@ -1,4 +1,5 @@
 import pathlib
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 CACHE_DIR_NAMES: frozenset[str] = frozenset({
@@ -23,8 +24,8 @@ EXCLUDED_DIR_NAMES: frozenset[str] = frozenset({
 
 @dataclass(frozen=True)
 class CacheScan:
-    dirs: list[pathlib.Path]
-    files: list[pathlib.Path]
+    dirs: Sequence[pathlib.Path]
+    files: Sequence[pathlib.Path]
 
     @property
     def count(self) -> int:
@@ -32,7 +33,7 @@ class CacheScan:
 
 
 class CacheScanner:
-    def scan(self, folder: str) -> CacheScan:
+    def scan(self, folder: str | pathlib.Path) -> CacheScan:
         root = pathlib.Path(folder)
         if not root.is_dir():
             raise NotADirectoryError(f"{folder!r} is not a directory")
@@ -56,3 +57,8 @@ class CacheScanner:
                     self._scan(item, dirs, files)
             elif item.is_file() and item.suffix in CACHE_FILE_SUFFIXES:
                 files.append(item)
+
+
+def find_cache_paths(folder: str | pathlib.Path) -> CacheScan:
+    """Convenience one-shot API: scan and return all cache paths."""
+    return CacheScanner().scan(folder)
